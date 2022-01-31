@@ -46,7 +46,8 @@ donc.
 # Exercice 1
 
 Commençons par le commencement : charger les données.
-```{r}
+
+```r
 # Méthode 1 : saisie manuelle
 age <- c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
 taille <- c(96, 104.8, 110.3, 115.3, 121.9, 127.4, 130.8, 136, 139.7, 144.5)
@@ -72,13 +73,16 @@ Nos données sont bien en mémoire; nous allons pouvoir les représenter. Nous c
 claires par rapport aux formules du cours et au code, on renommera nos variables
 en X et en Y puis on les représentera.
 
-```{r}
+
+```r
 # Je recommande l'usage de majuscules parce que nous manipulons ici des vecteurs
 X <- df$age
 Y <- df$taille
 
 plot(X, Y)
 ```
+
+![](TD_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 Si l'on devait synthétiser le nuage de points, une droite semble adaptée au regard de sa forme.
 On va donc utiliser le modèle linéaire *simple*. Utiliser ce modèle, c'est faire un certain nombre d'hypothèses sur nos données. Dans le cadre de ce cours, nous ne mettrons l'accent que sur deux : l'indépendance de tous les couples (x,y) et le fait que les Y suivent une loi normale. Ceux/celles qui liront le Bourbonnais en sauront davantage.
@@ -88,16 +92,41 @@ notre modèle linéaire simple.
 
 Si l'on devait faire les choses de manière très directe dans R, alors on ferait ainsi :
 
-```{r}
+
+```r
 model <- lm(Y ~ X)
 plot(X, Y)
 abline(model)
 ```
 
+![](TD_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
 R fait les choses pour nous ; très pratique. Voyez plutôt :
 
-```{r}
+
+```r
 summary(model)
+```
+
+```
+## 
+## Call:
+## lm(formula = Y ~ X)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.180 -0.860  0.350  0.625  2.120 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  83.5200     1.5086   55.36 1.26e-11 ***
+## X             5.2200     0.1878   27.79 3.03e-09 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.706 on 8 degrees of freedom
+## Multiple R-squared:  0.9897,	Adjusted R-squared:  0.9885 
+## F-statistic: 772.2 on 1 and 8 DF,  p-value: 3.035e-09
 ```
 
 On peut lire que l'on a une ordonnée à l'origine de 83.52, et un coefficient directeur de la droite de 5.22. R nous donne même d'autres indications très intéressantes mais qui sortent du cadre de ce cours (rien ne vous interdit de demander ceci étant dit). Funny fact mnémotechnique : avez-vous remarqué la façon dont on spécificie un modèle en termes de code ? Pour rappel : `lm(Y ~ X)`. Le tilde (`~`) est exactement le même que dans le langage
@@ -107,7 +136,8 @@ pour des statisticiens. On peut quand même faire des choses classiques avec R, 
 
 Tout cela est très bien, mais on cherche ici à comprendre ; voyons comment calculer les coefficients à partir des formules du cours. On le fera de plusieurs façons tout à fait équivalentes, l'idée est de faire comprendre quel est le fonctionnement de ces formules. On nommera respectivement `a_hat` (a chapeau) le coefficient directeur de la droite, et `b_hat` (b chapeau) l'ordonnée à l'origine. En Statistique, l'usage veut que l'on mette un chapeau sur la notation de ce que l'on estime.
 
-```{r}
+
+```r
 # Méthode 1 : version "je suis un statisticien"
 a_hat <- cov(X, Y) / var(X) # var est l'estimateur de la variance *sans biais*, on parle de correction de Bessel
 b_hat <- mean(Y) - a_hat * mean(X)
@@ -141,31 +171,52 @@ ils mesurent l'erreur de spécification, de mesure, etc. C'est en quelque sorte
 eux qui font le lien entre un modèle linéaire simple théoriquement parfait, et
 nos données réellement imparfaites. R le fait aussi pour nous :
 
-```{r}
+
+```r
 model$residuals
+```
+
+```
+##     1     2     3     4     5     6     7     8     9    10 
+## -3.18  0.40  0.68  0.46  1.84  2.12  0.30  0.28 -1.24 -1.66
 ```
 
 Mais ici encore, on cherche à comprendre. On va coller à la formule du cours :
 
-```{r}
+
+```r
 Y_hat <- predict(model) # On demande la valeur des Y estimés selon notre modèle
 Epsilon <- Y - Y_hat # On soustrait les valeurs estimées aux valeurs réelles
 ```
 
-```{r}
+
+```r
 Epsilon
+```
+
+```
+##     1     2     3     4     5     6     7     8     9    10 
+## -3.18  0.40  0.68  0.46  1.84  2.12  0.30  0.28 -1.24 -1.66
 ```
 
 Représentons maintenant les résidus :
 
-```{r}
+
+```r
 plot(model$residuals)
 ```
 
+![](TD_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+
 A priori, les résidus ne semblent pas s'annuler les uns les autres. En fait, l'une des hypothèses fondamentales de la régression linéaire simple est que l'espérance des résidus est nulle (au passage, j'insiste : vous devriez vraiment lire le Bourbonnais en bibliographie). Regardons l'espérance de nos résidus :
 
-```{r}
+
+```r
 mean(model$residuals)
+```
+
+```
+## [1] 4.436555e-17
 ```
 
 Cela reste quand même très proche de 0... peu de raisons de rejeter notre modèle, donc.
