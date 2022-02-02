@@ -16,10 +16,7 @@ descriptive 2 dispensé en L2 MIASHS à l'Université Lumière Lyon 2 par [Stép
 
 *Ce document n'est pas un tutoriel pour R, et n'a pas pour but de remplacer le CM*.
 Au-delà du cours, il est vivement recommandé de consulter la BU (et pas
-uniquement dans cette matière !). Les ressources sont toutes en français, même
-si certaines pages d'accueil sont en anglais. Les ouvrages sont quant à eux tous
-disponibles à la BU. Mes recommandations portent sur des livres que j'estime
-être de bonne qualité et que j'ai moi-même utilisé lorsque j'étais étudiant (et
+uniquement dans cette matière !). Les ressources sont pour la plupart en français, et les ouvrages sont quant à eux tous disponibles à la BU. Mes recommandations portent sur des livres que j'estime être de bonne qualité et que j'ai moi-même utilisé lorsque j'étais étudiant (et
 que j'utilise toujours), mais il se peut que celles-ci ne soient pas adaptées à
 tout le monde. Le cas échéant, je vous invite à vous constituer votre propre
 base documentaire : il n'y a que vous qui pouvez savoir quelle présentation vous
