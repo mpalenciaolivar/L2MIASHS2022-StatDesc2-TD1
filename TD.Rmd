@@ -11,11 +11,7 @@ output:
 
 Le présent document a pour objectif de présenter synthétiquement - et au fur et
 à mesure des séances - la solution du TD 1 correspondant au cours de Statistique
-descriptive 2 dispensé en L2 MIASHS à l'Université Lumière Lyon 2 par [Stéphane CHRÉTIEN](https://sites.google.com/site/stephanegchretien/enseignement/l2-miashs-statistiques-descriptives/l2-statistiques-descriptives-2-regression-et-classification). Les
-consignes et des ressources supplémentaires sont trouvables dans le répertoire
-`doc`; `data` contient pour sa part les jeux de données utilisés dans le cadre
-du TD.
-
+descriptive 2 dispensé en L2 MIASHS à l'Université Lumière Lyon 2 par [Stéphane CHRÉTIEN](https://sites.google.com/site/stephanegchretien/enseignement/l2-miashs-statistiques-descriptives/l2-statistiques-descriptives-2-regression-et-classification). Les consignes sont trouvables dans le répertoire `doc`; `data` contient pour sa part les jeux de données utilisés dans le cadre du TD dans des formats simples d'usage.
 
 
 *Ce document n'est pas un tutoriel pour R, et n'a pas pour but de remplacer le CM*.
@@ -43,6 +39,8 @@ donc.
 - [Tutoriel de Sébastien DÉJEAN](http://www.math.univ-toulouse.fr/~sdejean/PDF/semin-R_juin_2014.pdf)
 - [Ressources de Ricco RAKOTOMALALA](https://eric.univ-lyon2.fr/~ricco/ricco.html)
 
+## Ressources internet
+- [Three simple things about regression that every data scientist should know](https://towardsdatascience.com/three-simple-things-about-regression-that-every-data-scientist-should-know-b3419ce3ae3c)
 
 # Exercice 1
 
@@ -66,12 +64,10 @@ taille <- df$taille
 
 En R, l'usage veut que l'on utilise une flèche pour l'affectation d'une valeur
 à une variable, et que l'on utilise le signe `=` pour les paramètres d'une fonction.
-Pour rester conformes aux convention, on utilisera la flèche (il existe un raccourci
-clavier pour la faire facilement : c'est Alt + -).
+Pour rester conformes aux conventions, on utilisera la flèche (il existe un raccourci
+clavier pour la faire facilement : c'est la combinaison Alt + -).
 
-Nos données sont bien en mémoire; nous allons pouvoir les représenter. Nous cherchons à représenter notre taille en fonction de l'âge, aussi, notre X est l'âge et notre Y est la taille, qui sont tous deux des variables continues. Pour rendre les choses plus
-claires par rapport aux formules du cours et au code, on renommera nos variables
-en X et en Y puis on les représentera.
+Nos données sont bien en mémoire; nous allons pouvoir les représenter. Nous cherchons à représenter notre taille en fonction de l'âge, aussi, notre X est l'âge et notre Y est la taille, qui sont tous deux des variables continues. En fait, on veut capturer la relation entre ces deux variables, c'est-à-dire expliquer Y grâce à X. Pour rendre les choses plus claires par rapport aux formules du cours et au code, on renommera nos variables en X et en Y puis on les représentera.
 
 ```{r}
 # Je recommande l'usage de majuscules parce que nous manipulons ici des vecteurs
@@ -82,10 +78,9 @@ plot(X, Y)
 ```
 
 Si l'on devait synthétiser le nuage de points, une droite semble adaptée au regard de sa forme.
-On va donc utiliser le modèle linéaire *simple*. Utiliser ce modèle, c'est faire un certain nombre d'hypothèses sur nos données. Dans le cadre de ce cours, nous ne mettrons l'accent que sur deux : l'indépendance de tous les couples (x,y) et le fait que les Y suivent une loi normale. Ceux/celles qui liront le Bourbonnais en sauront davantage.
+On va donc utiliser le modèle linéaire *simple*. Utiliser ce modèle, c'est faire un certain nombre d'hypothèses sur nos données. Dans le cadre de ce cours, nous ne mettrons l'accent que sur deux : l'indépendance de tous les couples (x,y) et le fait que Y suive une loi normale. Ceux/celles qui liront le Bourbonnais en sauront davantage.
 
-Mais est-ce bien vrai ? C'est à nous de le vérifier, et du reste, pas toujours. Dans les faits, un statisticien doit souvent composer avec des violations d'hypothèse. Cela ne rend pas un modèle inutile pour autant : le modèle n'est qu'un outil, à nous de sélectionner le bon en fonction de notre cas à traiter. En bref, ce n'est pas parce que l'on dispose d'un marteau qu'il faut voir des clous de partout ! De plus, on peut plus ou moins toujours faire mieux. Par exemple, on cherche ici à modéliser la taille ; or, la loi normale peut théoriquement prendre des valeurs négatives. On pourrait opter pour une [gaussienne tronquée](https://fr.wikipedia.org/wiki/Loi_tronqu%C3%A9e#Loi_normale_tronqu%C3%A9e) de telle sorte à éliminer les valeurs négatives par exemple. Pour l'heure, restons dans la simplicité de
-notre modèle linéaire simple.
+Mais est-ce bien vrai ? C'est à nous de le vérifier, et du reste, pas toujours. Dans les faits, un statisticien doit souvent composer avec des violations d'hypothèse (multicolinéarité dans le cas de la régression linéaire multiple, etc.). Cela ne rend pas un modèle inutile pour autant : le modèle n'est qu'un outil, à nous de sélectionner le bon en fonction de notre cas à traiter. En bref, ce n'est pas parce que l'on dispose d'un marteau qu'il faut voir des clous de partout ! De plus, on peut plus ou moins toujours faire mieux. Par exemple, on cherche ici à modéliser la taille ; or, la loi normale peut théoriquement prendre des valeurs négatives. On pourrait opter pour une [gaussienne tronquée](https://fr.wikipedia.org/wiki/Loi_tronqu%C3%A9e#Loi_normale_tronqu%C3%A9e) de telle sorte à éliminer les valeurs négatives par exemple. Pour l'heure, restons dans la simplicité de notre modèle d'intérêt.
 
 Si l'on devait faire les choses de manière très directe dans R, alors on ferait ainsi :
 
@@ -101,29 +96,30 @@ R fait les choses pour nous ; très pratique. Voyez plutôt :
 summary(model)
 ```
 
-On peut lire que l'on a une ordonnée à l'origine de 83.52, et un coefficient directeur de la droite de 5.22. R nous donne même d'autres indications très intéressantes mais qui sortent du cadre de ce cours (rien ne vous interdit de demander ceci étant dit). Funny fact mnémotechnique : avez-vous remarqué la façon dont on spécificie un modèle en termes de code ? Pour rappel : `lm(Y ~ X)`. Le tilde (`~`) est exactement le même que dans le langage
-classique des probabilités, on peut lire que Y suit la loi de X. Cela rappelle *un peu* nos hypothèses de base (Y suivant une gaussienne dont l'espérance est un modèle linéaire de X).
-C'est cela qui fait le charme de R : il s'agit ici d'un langage fait par des statisticiens,
-pour des statisticiens. On peut quand même faire des choses classiques avec R, dont des [applications web](https://shiny.rstudio.com/), mais l'intérêt est vite réduit à peau de chagrin lorsque l'on sort de choses sans rapport avec l'analyse de données.
+On peut lire que l'on a une ordonnée à l'origine de 83.52, et un coefficient directeur de la droite de 5.22. R nous donne même d'autres indications très intéressantes mais qui sortent du cadre de ce cours (rien ne vous interdit de demander ceci étant dit). Il y a quand même les coefs de significativité et le Rˆ2 (à vous de calculer ce dernier). Funny fact mnémotechnique : avez-vous remarqué la façon dont on spécifie un modèle en termes de code ? Pour rappel : `lm(Y ~ X)`. Le tilde (`~`) est exactement le même que dans le langage classique des probabilités, on peut lire que Y suit la loi de X. Cela rappelle *un peu* nos hypothèses de base (Y suivant une gaussienne dont l'espérance est un modèle linéaire de X). C'est cela qui fait le charme de R : il s'agit ici d'un langage fait par des statisticiens, pour des statisticiens. On peut quand même faire des choses classiques avec R, dont des [applications web](https://shiny.rstudio.com/), mais l'intérêt est vite réduit à peau de chagrin lorsque l'on sort de choses sans rapport avec l'analyse de données.
 
-Tout cela est très bien, mais on cherche ici à comprendre ; voyons comment calculer les coefficients à partir des formules du cours. On le fera de plusieurs façons tout à fait équivalentes, l'idée est de faire comprendre quel est le fonctionnement de ces formules. On nommera respectivement `a_hat` (a chapeau) le coefficient directeur de la droite, et `b_hat` (b chapeau) l'ordonnée à l'origine. En Statistique, l'usage veut que l'on mette un chapeau sur la notation de ce que l'on estime.
+Tout cela est très bien, mais on cherche ici à comprendre ; voyons comment calculer les coefficients à partir des formules du cours. On le fera de plusieurs façons tout à fait équivalentes, l'idée étant de faire comprendre quel est le fonctionnement de ces formules. On nommera respectivement `a_hat` (a chapeau) le coefficient directeur de la droite, et `b_hat` (b chapeau) l'ordonnée à l'origine. En Statistique, l'usage veut que l'on mette un chapeau sur la notation de ce que l'on estime.
 
 ```{r}
 # Méthode 1 : version "je suis un statisticien"
-a_hat <- cov(X, Y) / var(X) # var est l'estimateur de la variance *sans biais*, on parle de correction de Bessel
-b_hat <- mean(Y) - a_hat * mean(X)
+a_hat_methode1 <- cov(X, Y) / var(X) 
+# var est l'estimateur de la variance *sans biais*, on parle de correction
+# de Bessel
+b_hat_methode1 <- mean(Y) - a_hat_methode1 * mean(X)
 # mean(Y) est y avec une barre
 
 # Méthode 2: version "je me rends compte que je manipule des moyennes"
 numerator <- mean((X - mean(X)) * (Y - mean(Y)))
-# Ici, X - mean(X) signifie que pour toute valeur du vecteur X - et donc tout petit x -, on va soustraire la valeur de la moyenne de X
+# Ici, X - mean(X) signifie que pour toute valeur du vecteur X - et donc
+# tout petit x, ou x indice i -, on va soustraire la valeur de la moyenne de X
 denominator <- mean((X - mean(X)) ** 2)
 
-a_hat <- numerator / denominator
-b_hat <- mean(Y) - a_hat * mean(X)
+a_hat_methode2 <- numerator / denominator
+b_hat_methode2 <- mean(Y) - a_hat_methode2 * mean(X)
 
 # Méthode 3: version "je suis un informaticien, j'aime les boucles"
-# Cette version est de loin la plus explicite, mais je la déconseille en pratique.
+# Cette version est de loin la plus explicite, mais je la déconseille en
+# pratique.
 n <- nrow(df) # Nombre d'individus statistiques, ou de mesures en l'occurrence
 
 numerator <- 0
@@ -132,8 +128,8 @@ for (i in 1:n) {
   numerator <- numerator + (X[i] - mean(X)) * (Y[i] - mean(Y)) / n
   denominator <- denominator + ((X[i] - mean(X)) ** 2) / n
 }
-a_hat <- numerator / denominator
-b_hat <- mean(Y) - a_hat * mean(X)
+a_hat_methode3 <- numerator / denominator
+b_hat_methode3 <- mean(Y) - a_hat_methode3 * mean(X)
 ```
 
 Vérifiez par vous-mêmes : les valeurs sont les mêmes. Par contre, il nous
@@ -169,7 +165,9 @@ A priori, les résidus ne semblent pas s'annuler les uns les autres. En fait, l'
 mean(model$residuals)
 ```
 
-Cela reste quand même très proche de 0... peu de raisons de rejeter notre modèle, donc.
+Cela reste quand même très proche de 0... peu de raisons de rejeter notre modèle, donc, et ce d'autant plus que les coefs de régression sont outrageusement significatifs. Autant vous dire que vous ne verrez pas souvent ce genre de situations en pratique.
 
-
-**Bonus** Pour des raisons pédagogiques, on traite ici des données dont il est évident qu'elles peuvent être synthétisées facilement avec un modèle linéaire simple. Mettons un peu de sel dans tout cela, afin de mieux comprendre ce qu'il se passe : vous pouvez simuler vous-mêmes vos données pour jouer un peu avec le modèle. On peut le faire avec R, en utilisant des générateurs, ou alors de façon plus ludique en dessinant ses nuages de points à la souris. RDV sur [drawdata.xyz](https://drawdata.xyz/#scatterchart), section scatterchart. Dessinez vos nuages, téléchargez vos CSV, puis répétez les étapes ci-dessus. On peut aussi créer des types/groupes de données, pour faire plus complexe.
+## Bonus
+Pour des raisons pédagogiques, on traite ici des données dont il est évident qu'elles peuvent être synthétisées facilement avec un modèle linéaire simple. Mettons un peu de sel dans tout cela, afin de mieux comprendre ce qu'il se passe : vous pouvez simuler vous-mêmes vos données pour jouer un peu avec le modèle. On peut le faire avec R, en utilisant des générateurs, ou alors de façon plus ludique en dessinant ses nuages de points à la souris. RDV sur [drawdata.xyz](https://drawdata.xyz/#scatterchart), section scatterchart. Dessinez vos nuages, téléchargez vos CSV, puis répétez les étapes ci-dessus. On peut aussi créer des types/groupes de données, pour faire plus complexe. Le site permet aussi de dessiner des histogrammes, qui "peuvent être vus comme une version discontinue empirique de la courbe de densité d'une variable
+aléatoire" (dixit [Julien Jacques](http://eric.univ-lyon2.fr/~jjacques/Download/Cours/SI-Cours.pdf)). En gros, dessiner un histogramme vous permet de créer vos propres distributions facilement (et ce n'est pas grave que cela ne colle pas à une distribution théorique, c'est même une bonne chose en termes d'apprentissage). Essayez donc de faire
+des choses qui ne ressemblent pas à des gaussiennes, pour voir ce que cela donne. À noter que notre site [drawdata.xyz](https://drawdata.xyz) pourra nous servir pour toutes les notions du cours. À garder sous le coude, donc ! 
