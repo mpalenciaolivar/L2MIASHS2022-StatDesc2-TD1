@@ -32,7 +32,7 @@ donc.
 - BERTRAND, Frédéric et MAUMY-BERTRAND, Myriam. Initiation à la statistique avec R. Chez Dunod.
 
 ## Ressources pour R, etc.
-- [Ressouces de Stéphane CHRÉTIEN](https://sites.google.com/site/stephanegchretien/enseignement/logiciel-r-pour-les-statistiques)
+- [Ressources de Stéphane CHRÉTIEN](https://sites.google.com/site/stephanegchretien/enseignement/logiciel-r-pour-les-statistiques)
 - [Tutoriel de Sébastien DÉJEAN](http://www.math.univ-toulouse.fr/~sdejean/PDF/semin-R_juin_2014.pdf)
 - [Ressources de Ricco RAKOTOMALALA](https://eric.univ-lyon2.fr/~ricco/ricco.html)
 
