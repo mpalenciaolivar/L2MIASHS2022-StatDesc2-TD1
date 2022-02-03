@@ -39,7 +39,7 @@ donc.
 ## Ressources internet
 - [Three simple things about regression that every data scientist should know](https://towardsdatascience.com/three-simple-things-about-regression-that-every-data-scientist-should-know-b3419ce3ae3c)
 - [A Big Problem with Linear Regression and How to Solve It](https://towardsdatascience.com/robust-regression-23b633e5d6a5)
-- [La Statistique expliquée à mon chat](https://www.youtube.com/channel/UCWty1tzwZW_ZNSp5GVGteaA) (chaîne Youtube)
+- [La Statistique expliquée à mon chat](https://www.youtube.com/channel/UCWty1tzwZW_ZNSp5GVGteaA) et le [Chat Sceptique](https://www.youtube.com/c/chatsceptique) (chaînes Youtube du même auteur)
 - [Seeing theory](https://seeing-theory.brown.edu/) (site web interactif sur les probabilités)
 
 # Exercice 1
