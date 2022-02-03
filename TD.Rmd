@@ -11,7 +11,7 @@ output:
 
 Le présent document a pour objectif de présenter synthétiquement - et au fur et
 à mesure des séances - la solution du TD 1 correspondant au cours de Statistique
-descriptive 2 dispensé en L2 MIASHS à l'Université Lumière Lyon 2 par [Stéphane CHRÉTIEN](https://sites.google.com/site/stephanegchretien/enseignement/l2-miashs-statistiques-descriptives/l2-statistiques-descriptives-2-regression-et-classification). Les consignes sont trouvables dans le répertoire `doc`; `data` contient pour sa part les jeux de données utilisés dans le cadre du TD dans des formats simples d'usage.
+descriptive 2 dispensé en L2 MIASHS à l'Université Lumière Lyon 2 par [Stéphane CHRÉTIEN](https://sites.google.com/site/stephanegchretien/enseignement/l2-miashs-statistiques-descriptives/l2-statistiques-descriptives-2-regression-et-classification). Les consignes sont trouvables dans le répertoire `doc` ; `data` contient pour sa part les jeux de données utilisés dans le cadre du TD dans des formats simples d'usage.
 
 
 *Ce document n'est pas un tutoriel pour R, et n'a pas pour but de remplacer le CM*.
@@ -24,7 +24,7 @@ convient ! De mon point de vue, il est même plutôt sain de se constituer ses
 propres outils et références. Aucune obligation, juste de la recommandation,
 donc.
 
-# Bibliographie indicative
+# Ressources utiles
 ## Ouvrages
 - BOURBONNAIS, Régis. Économétrie. Chez Dunod.
 - GOLDFARB, Bernard et PARDOUX, Catherine. Introduction à la méthode statistique - statistique et probabilités. Chez Dunod.
@@ -39,7 +39,7 @@ donc.
 ## Ressources internet
 - [Three simple things about regression that every data scientist should know](https://towardsdatascience.com/three-simple-things-about-regression-that-every-data-scientist-should-know-b3419ce3ae3c)
 - [A Big Problem with Linear Regression and How to Solve It](https://towardsdatascience.com/robust-regression-23b633e5d6a5)
-- [La statistique expliquée à mon chat](https://www.youtube.com/channel/UCWty1tzwZW_ZNSp5GVGteaA) (chaîne Youtube)
+- [La Statistique expliquée à mon chat](https://www.youtube.com/channel/UCWty1tzwZW_ZNSp5GVGteaA) (chaîne Youtube)
 - [Seeing theory](https://seeing-theory.brown.edu/) (site web interactif sur les probabilités)
 
 # Exercice 1
@@ -67,7 +67,7 @@ En R, l'usage veut que l'on utilise une flèche pour l'affectation d'une valeur
 Pour rester conformes aux conventions, on utilisera la flèche (il existe un raccourci
 clavier pour la faire facilement : c'est la combinaison Alt + -).
 
-Nos données sont bien en mémoire; nous allons pouvoir les représenter. Nous cherchons à représenter notre taille en fonction de l'âge, aussi, notre X est l'âge et notre Y est la taille, qui sont tous deux des variables continues. En fait, on veut capturer la relation entre ces deux variables, c'est-à-dire expliquer Y grâce à X. Pour rendre les choses plus claires par rapport aux formules du cours et au code, on renommera nos variables en X et en Y puis on les représentera.
+Nos données sont bien en mémoire ; nous allons pouvoir les représenter. Nous cherchons à représenter notre taille en fonction de l'âge, aussi, notre X est l'âge et notre Y est la taille, qui sont toutes deux des variables continues. En fait, on veut capturer la relation entre ces deux variables, c'est-à-dire expliquer Y grâce à X. Pour rendre les choses plus claires par rapport aux formules du cours et au code, on renommera nos variables en X et en Y puis on les représentera.
 
 ```{r}
 # Je recommande l'usage de majuscules parce que nous manipulons ici des vecteurs
@@ -78,7 +78,16 @@ plot(X, Y)
 ```
 
 Si l'on devait synthétiser le nuage de points, une droite semble adaptée au regard de sa forme.
-On va donc utiliser le modèle linéaire *simple*. Utiliser ce modèle, c'est faire un certain nombre d'hypothèses sur nos données. Dans le cadre de ce cours, nous ne mettrons l'accent que sur deux : l'indépendance de tous les couples (x,y) et le fait que Y suive une loi normale. Ceux/celles qui liront le Bourbonnais en sauront davantage.
+On va donc utiliser le modèle linéaire *simple*. Visualiser est important pour
+se forger des intuitions, et ce n'est pas parce que l'on a des indicateurs
+identiques sur deux jeux de données distincts que le même modèle est adapté ;
+j'en veux pour exemple le [quartet d'Anscombe](https://fr.wikipedia.org/wiki/Quartet_d%27Anscombe).
+
+Comme toujours avec un modèle, utiliser la régression linéaire simple, c'est
+faire un certain nombre d'hypothèses sur nos données. Dans le cadre de ce cours,
+nous ne mettrons l'accent que sur deux : l'indépendance de tous les couples
+(x,y) et le fait que Y suive une loi normale. Ceux/celles qui liront le
+BOURBONNAIS en sauront davantage.
 
 Mais est-ce bien vrai ? C'est à nous de le vérifier, et du reste, pas toujours. Dans les faits, un statisticien doit souvent composer avec des violations d'hypothèse ([multicolinéarité dans le cas de la régression linéaire multiple](https://larmarange.github.io/analyse-R/multicolinearite.html), etc.). Cela ne rend pas un modèle inutile pour autant : le modèle n'est qu'un outil, à nous de sélectionner le bon en fonction de notre cas à traiter. En bref, ce n'est pas parce que l'on dispose d'un marteau qu'il faut voir des clous de partout ! De plus, on peut plus ou moins toujours faire mieux. Par exemple, on cherche ici à modéliser la taille ; or, la loi normale peut théoriquement prendre des valeurs négatives. On pourrait opter pour une [gaussienne tronquée](https://fr.wikipedia.org/wiki/Loi_tronqu%C3%A9e#Loi_normale_tronqu%C3%A9e) de telle sorte à éliminer les valeurs négatives par exemple. Pour l'heure, restons dans la simplicité de notre modèle d'intérêt.
 
@@ -132,11 +141,16 @@ a_hat_methode3 <- numerator / denominator
 b_hat_methode3 <- mean(Y) - a_hat_methode3 * mean(X)
 ```
 
-Vérifiez par vous-mêmes : les valeurs sont les mêmes. Par contre, il nous
-manquera quelque chose : les résidus. Ils sont importants, puisque grossièrement,
-ils mesurent l'erreur de spécification, de mesure, etc. C'est en quelque sorte
-eux qui font le lien entre un modèle linéaire simple théoriquement parfait, et
-nos données réellement imparfaites. R le fait aussi pour nous :
+Vérifiez par vous-mêmes : les valeurs sont les mêmes. Ici encore, avez-vous
+remarqué comment on calcule le coefficient directeur sur la méthode 1 ? On fait
+un ratio entre la covariance des deux variables et la variance de X. Intuitivement
+parlant, c'est là où l'on voit que l'on cherche à expliquer Y à partir de X.
+
+Par contre, il nous manquera quelque chose : les résidus. Ils sont importants,
+puisque grossièrement, ils mesurent l'erreur de spécification, de mesure, etc.
+C'est en quelque sorte eux qui font le lien entre un modèle linéaire simple
+théoriquement parfait, et nos données réellement imparfaites. R le fait aussi
+pour nous :
 
 ```{r}
 model$residuals
@@ -159,13 +173,14 @@ Représentons maintenant les résidus :
 plot(model$residuals)
 ```
 
-A priori, les résidus ne semblent pas s'annuler les uns les autres. En fait, l'une des hypothèses fondamentales de la régression linéaire simple est que l'espérance des résidus est nulle (au passage, j'insiste : vous devriez vraiment lire le Bourbonnais en bibliographie). Regardons l'espérance de nos résidus :
+
+*A priori*, les résidus ne semblent pas s'annuler les uns les autres. En fait, l'une des hypothèses fondamentales de la régression linéaire simple est que l'espérance des résidus est nulle (au passage, j'insiste : vous devriez vraiment lire le BOURBONNAIS en bibliographie). Regardons l'espérance de nos résidus :
 
 ```{r}
 mean(model$residuals)
 ```
 
-Cela reste quand même très proche de 0... peu de raisons de rejeter notre modèle, donc, et ce d'autant plus que les coefs de régression sont outrageusement significatifs. Autant vous dire que vous ne verrez pas souvent ce genre de situations en pratique.
+Cela reste quand même très proche de 0... peu de raisons de rejeter notre modèle, donc, et ce d'autant plus que les coefs de régression sont outrageusement significatifs. Autant vous dire que vous ne verrez pas souvent ce genre de situation en pratique.
 
 ## Bonus
 Pour des raisons pédagogiques, on traite ici des données dont il est évident qu'elles peuvent être synthétisées facilement avec un modèle linéaire simple. Mettons un peu de sel dans tout cela, afin de mieux comprendre ce qu'il se passe : vous pouvez simuler vous-mêmes vos données pour jouer un peu avec le modèle. On peut le faire avec R, en utilisant des générateurs, ou alors de façon plus ludique en dessinant ses nuages de points à la souris. RDV sur [drawdata.xyz](https://drawdata.xyz/#scatterchart), section scatterchart. Dessinez vos nuages, téléchargez vos CSV, puis répétez les étapes ci-dessus. On peut aussi créer des types/groupes de données, pour faire plus complexe. Le site permet aussi de dessiner des histogrammes, qui "peuvent être vus comme une version discontinue empirique de la courbe de densité d'une variable

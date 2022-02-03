@@ -1644,7 +1644,7 @@ au fur et à mesure des séances - la solution du TD 1 correspondant au
 cours de Statistique descriptive 2 dispensé en L2 MIASHS à l’Université
 Lumière Lyon 2 par <a href="https://sites.google.com/site/stephanegchretien/enseignement/l2-miashs-statistiques-descriptives/l2-statistiques-descriptives-2-regression-et-classification">Stéphane
 CHRÉTIEN</a>. Les consignes sont trouvables dans le répertoire
-<code>doc</code>; <code>data</code> contient pour sa part les jeux de
+<code>doc</code> ; <code>data</code> contient pour sa part les jeux de
 données utilisés dans le cadre du TD dans des formats simples
 d’usage.</p>
 <p><em>Ce document n’est pas un tutoriel pour R, et n’a pas pour but de
@@ -1661,8 +1661,8 @@ point de vue, il est même plutôt sain de se constituer ses propres
 outils et références. Aucune obligation, juste de la recommandation,
 donc.</p>
 </div>
-<div id="bibliographie-indicative" class="section level1">
-<h1>Bibliographie indicative</h1>
+<div id="ressources-utiles" class="section level1">
+<h1>Ressources utiles</h1>
 <div id="ouvrages" class="section level2">
 <h2>Ouvrages</h2>
 <ul>
@@ -1695,7 +1695,7 @@ know</a></li>
 <li><a href="https://towardsdatascience.com/robust-regression-23b633e5d6a5">A
 Big Problem with Linear Regression and How to Solve It</a></li>
 <li><a href="https://www.youtube.com/channel/UCWty1tzwZW_ZNSp5GVGteaA">La
-statistique expliquée à mon chat</a> (chaîne Youtube)</li>
+Statistique expliquée à mon chat</a> (chaîne Youtube)</li>
 <li><a href="https://seeing-theory.brown.edu/">Seeing theory</a> (site
 web interactif sur les probabilités)</li>
 </ul>
@@ -1723,13 +1723,13 @@ d’une valeur à une variable, et que l’on utilise le signe <code>=</code>
 pour les paramètres d’une fonction. Pour rester conformes aux
 conventions, on utilisera la flèche (il existe un raccourci clavier pour
 la faire facilement : c’est la combinaison Alt + -).</p>
-<p>Nos données sont bien en mémoire; nous allons pouvoir les
+<p>Nos données sont bien en mémoire ; nous allons pouvoir les
 représenter. Nous cherchons à représenter notre taille en fonction de
-l’âge, aussi, notre X est l’âge et notre Y est la taille, qui sont tous
-deux des variables continues. En fait, on veut capturer la relation
-entre ces deux variables, c’est-à-dire expliquer Y grâce à X. Pour
-rendre les choses plus claires par rapport aux formules du cours et au
-code, on renommera nos variables en X et en Y puis on les
+l’âge, aussi, notre X est l’âge et notre Y est la taille, qui sont
+toutes deux des variables continues. En fait, on veut capturer la
+relation entre ces deux variables, c’est-à-dire expliquer Y grâce à X.
+Pour rendre les choses plus claires par rapport aux formules du cours et
+au code, on renommera nos variables en X et en Y puis on les
 représentera.</p>
 <pre class="r"><code># Je recommande l&#39;usage de majuscules parce que nous manipulons ici des vecteurs
 X &lt;- df$age
@@ -1739,11 +1739,16 @@ plot(X, Y)</code></pre>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>Si l’on devait synthétiser le nuage de points, une droite semble
 adaptée au regard de sa forme. On va donc utiliser le modèle linéaire
-<em>simple</em>. Utiliser ce modèle, c’est faire un certain nombre
-d’hypothèses sur nos données. Dans le cadre de ce cours, nous ne
-mettrons l’accent que sur deux : l’indépendance de tous les couples
-(x,y) et le fait que Y suive une loi normale. Ceux/celles qui liront le
-Bourbonnais en sauront davantage.</p>
+<em>simple</em>. Visualiser est important pour se forger des intuitions,
+et ce n’est pas parce que l’on a des indicateurs identiques sur deux
+jeux de données distincts que le même modèle est adapté ; j’en veux pour
+exemple le <a href="https://fr.wikipedia.org/wiki/Quartet_d%27Anscombe">quartet
+d’Anscombe</a>.</p>
+<p>Comme toujours avec un modèle, utiliser la régression linéaire
+simple, c’est faire un certain nombre d’hypothèses sur nos données. Dans
+le cadre de ce cours, nous ne mettrons l’accent que sur deux :
+l’indépendance de tous les couples (x,y) et le fait que Y suive une loi
+normale. Ceux/celles qui liront le BOURBONNAIS en sauront davantage.</p>
 <p>Mais est-ce bien vrai ? C’est à nous de le vérifier, et du reste, pas
 toujours. Dans les faits, un statisticien doit souvent composer avec des
 violations d’hypothèse (<a href="https://larmarange.github.io/analyse-R/multicolinearite.html">multicolinéarité
@@ -1837,12 +1842,16 @@ for (i in 1:n) {
 }
 a_hat_methode3 &lt;- numerator / denominator
 b_hat_methode3 &lt;- mean(Y) - a_hat_methode3 * mean(X)</code></pre>
-<p>Vérifiez par vous-mêmes : les valeurs sont les mêmes. Par contre, il
-nous manquera quelque chose : les résidus. Ils sont importants, puisque
-grossièrement, ils mesurent l’erreur de spécification, de mesure, etc.
-C’est en quelque sorte eux qui font le lien entre un modèle linéaire
-simple théoriquement parfait, et nos données réellement imparfaites. R
-le fait aussi pour nous :</p>
+<p>Vérifiez par vous-mêmes : les valeurs sont les mêmes. Ici encore,
+avez-vous remarqué comment on calcule le coefficient directeur sur la
+méthode 1 ? On fait un ratio entre la covariance des deux variables et
+la variance de X. Intuitivement parlant, c’est là où l’on voit que l’on
+cherche à expliquer Y à partir de X.</p>
+<p>Par contre, il nous manquera quelque chose : les résidus. Ils sont
+importants, puisque grossièrement, ils mesurent l’erreur de
+spécification, de mesure, etc. C’est en quelque sorte eux qui font le
+lien entre un modèle linéaire simple théoriquement parfait, et nos
+données réellement imparfaites. R le fait aussi pour nous :</p>
 <pre class="r"><code>model$residuals</code></pre>
 <pre><code>##     1     2     3     4     5     6     7     8     9    10 
 ## -3.18  0.40  0.68  0.46  1.84  2.12  0.30  0.28 -1.24 -1.66</code></pre>
@@ -1856,17 +1865,17 @@ Epsilon &lt;- Y - Y_hat # On soustrait les valeurs estimées aux valeurs réelle
 <p>Représentons maintenant les résidus :</p>
 <pre class="r"><code>plot(model$residuals)</code></pre>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
-<p>A priori, les résidus ne semblent pas s’annuler les uns les autres.
-En fait, l’une des hypothèses fondamentales de la régression linéaire
-simple est que l’espérance des résidus est nulle (au passage, j’insiste
-: vous devriez vraiment lire le Bourbonnais en bibliographie). Regardons
-l’espérance de nos résidus :</p>
+<p><em>A priori</em>, les résidus ne semblent pas s’annuler les uns les
+autres. En fait, l’une des hypothèses fondamentales de la régression
+linéaire simple est que l’espérance des résidus est nulle (au passage,
+j’insiste : vous devriez vraiment lire le BOURBONNAIS en bibliographie).
+Regardons l’espérance de nos résidus :</p>
 <pre class="r"><code>mean(model$residuals)</code></pre>
 <pre><code>## [1] 4.436555e-17</code></pre>
 <p>Cela reste quand même très proche de 0… peu de raisons de rejeter
 notre modèle, donc, et ce d’autant plus que les coefs de régression sont
 outrageusement significatifs. Autant vous dire que vous ne verrez pas
-souvent ce genre de situations en pratique.</p>
+souvent ce genre de situation en pratique.</p>
 <div id="bonus" class="section level2">
 <h2>Bonus</h2>
 <p>Pour des raisons pédagogiques, on traite ici des données dont il est
