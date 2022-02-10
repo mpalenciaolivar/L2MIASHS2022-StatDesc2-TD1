@@ -406,7 +406,7 @@ Cela signifie qu'en moyenne, pour une valeur que l'on cherche à prédire, on de
 
 ### Bonus sur les résidus
 
-Dans le cours et dans l'article référencé ci-dessus, on parle du fait que l'erreur (ou résidus) est souvent gaussienne. Dans le bonus de l'exercice 1, j'ai expliqué qu'un histogramme est un estimateur d'une densité. La preuve en image :
+Dans le cours et dans l'article référencé ci-dessus, on parle du fait que l'erreur (ou résidus) est souvent gaussienne. Dans le bonus de l'exercice 1, j'ai expliqué qu'un histogramme est en quelque sorte une version approximative d'une densité. La preuve en image :
 
 
 ```r
@@ -453,7 +453,6 @@ plot(X, Y)
 ![](TD_files/figure-html/chargement-donnees-Ex4-1.png)<!-- -->
 
 Visuellement, un modèle linéaire simple semble adapté. Allons-y:
-s
 
 
 ```r
