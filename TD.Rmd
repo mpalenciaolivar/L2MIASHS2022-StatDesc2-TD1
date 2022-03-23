@@ -36,6 +36,7 @@ uniquement dans cette matière !). Les ressources sont pour la plupart en franç
 - [A Big Problem with Linear Regression and How to Solve It](https://towardsdatascience.com/robust-regression-23b633e5d6a5)
 - [La Statistique expliquée à mon chat](https://www.youtube.com/channel/UCWty1tzwZW_ZNSp5GVGteaA) et le [Chat Sceptique](https://www.youtube.com/c/chatsceptique) (chaînes Youtube du même auteur)
 - [Seeing theory](https://seeing-theory.brown.edu/) (site web interactif sur les probabilités)
+- [Diagramme des techniques statistiques](https://www.dropbox.com/s/5a8w8kckyfeaix0/statistical%20models%20-%20diagram.pdf?dl=0)
 
 # Exercices
 
